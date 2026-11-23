@@ -19,11 +19,7 @@ export const OPENAI_MODEL = 'gpt-6-astra';
 
 type ChatClient = Pick<OpenAI, 'chat'>;
 
-export function createOpenAiService(
-  client: ChatClient,
-  // Die Server-Konfiguration kann das Modell überschreiben; sonst gilt der Standard oben
-  model: string = OPENAI_MODEL,
-): AiService {
+export function createOpenAiService(client: ChatClient, model: string = OPENAI_MODEL): AiService {
   return {
     async run<A extends AiAction>(
       action: A,
@@ -38,7 +34,6 @@ export function createOpenAiService(
           model,
           // Bei OpenAI heißt derselbe Aufwand reasoning_effort; kompatible Endpunkte können ihn ignorieren
           reasoning_effort: EFFORT[action],
-          // Das Schema kommt aus den gemeinsamen Verträgen – der Dienst erzwingt die Form
           response_format: zodResponseFormat(responseSchemas[action], action),
           messages: [
             { role: 'system', content: system },

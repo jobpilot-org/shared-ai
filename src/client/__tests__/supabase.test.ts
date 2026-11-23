@@ -9,7 +9,6 @@ const errorResponse = (body: unknown) =>
     headers: { 'Content-Type': 'application/json' },
   });
 
-/** Nachgebauter Supabase-Client: liefert die vorbereitete Antwort der Edge Function */
 function fakeClient(reply: { data?: unknown; error?: unknown }) {
   const invoke = vi.fn(async () => ({ data: reply.data ?? null, error: reply.error ?? null }));
   return { client: { functions: { invoke } } as unknown as AiFunctionClient, invoke };

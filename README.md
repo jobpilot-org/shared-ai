@@ -68,9 +68,12 @@ npm run check           # Typecheck + Tests + Formatprüfung – vor "fertig" au
 npm test                # vitest
 npm run typecheck       # tsc --noEmit
 npm run format          # Prettier über alle Dateien
+npm run format:check    # prüft nur die Formatierung (in `npm run check` enthalten)
 npm run build           # ESM + Deklarationen nach dist/
 npm pack --dry-run      # zeigt, was veröffentlicht würde (dist/, README, LICENSE, CHANGELOG)
 ```
+
+`.github/workflows/check.yml` führt `npm ci`, `npm run check`, `npm run build` und `npm pack --dry-run` bei jedem Push auf `develop`/`main` und bei Pull Requests aus.
 
 `src/**/__tests__/**` bleibt aus dem Build ausgenommen; `dist/` enthält nur JavaScript und Deklarationen.
 
@@ -78,7 +81,7 @@ npm pack --dry-run      # zeigt, was veröffentlicht würde (dist/, README, LICE
 
 1. `version` in `package.json` erhöhen (SemVer, unter 1.0 = noch nicht offiziell veröffentlicht) und `CHANGELOG.md` ergänzen.
 2. Auf `develop` committen und pushen.
-3. In GitHub unter _Actions → Publish → Run workflow_ auslösen. Der Workflow prüft, baut und veröffentlicht mit `packages: write`; `publishConfig.registry` zeigt auf `https://npm.pkg.github.com`.
+3. In GitHub unter _Actions → Publish → Run workflow_ auslösen. Der Workflow prüft, baut und veröffentlicht mit `packages: write`; `publishConfig.registry` zeigt auf `https://npm.pkg.github.com`, und `prepublishOnly` schickt jedes `npm publish` noch einmal durch `npm run check` und `npm run build`.
 4. Nach dem ersten Lauf die Sichtbarkeit des Pakets prüfen (öffentlich) und in den Consumern die exakte Version nachziehen.
 
 Ein fehlerhaftes Paket wird nicht überschrieben: GitHub Packages erlaubt das Veröffentlichen einer Version nur einmal. Stattdessen eine neue Patch-Version veröffentlichen.
