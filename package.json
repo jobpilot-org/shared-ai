@@ -1,0 +1,98 @@
+{
+  "name": "@jobpilot-org/shared-ai",
+  "version": "0.1.0",
+  "description": "Gemeinsame KI-Verträge, Prompts, Provider und Aufrufhilfen für jobpilot",
+  "keywords": [
+    "jobpilot",
+    "ai",
+    "zod"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "jobpilot."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jobpilot-org/shared-ai.git"
+  },
+  "type": "module",
+  "exports": {
+    "./assistant": {
+      "types": "./dist/assistant.d.ts",
+      "default": "./dist/assistant.js"
+    },
+    "./errors": {
+      "types": "./dist/errors.d.ts",
+      "default": "./dist/errors.js"
+    },
+    "./profile-input": {
+      "types": "./dist/profile-input.d.ts",
+      "default": "./dist/profile-input.js"
+    },
+    "./prompts/assistant": {
+      "types": "./dist/prompts/assistant.d.ts",
+      "default": "./dist/prompts/assistant.js"
+    },
+    "./providers/anthropic": {
+      "types": "./dist/providers/anthropic.d.ts",
+      "default": "./dist/providers/anthropic.js"
+    },
+    "./providers/openai": {
+      "types": "./dist/providers/openai.d.ts",
+      "default": "./dist/providers/openai.js"
+    },
+    "./features/cv-import": {
+      "types": "./dist/features/cv-import.d.ts",
+      "default": "./dist/features/cv-import.js"
+    },
+    "./features/job-import": {
+      "types": "./dist/features/job-import.d.ts",
+      "default": "./dist/features/job-import.js"
+    },
+    "./features/job-fit": {
+      "types": "./dist/features/job-fit.d.ts",
+      "default": "./dist/features/job-fit.js"
+    },
+    "./features/profile-review": {
+      "types": "./dist/features/profile-review.d.ts",
+      "default": "./dist/features/profile-review.js"
+    },
+    "./features/cover-letter": {
+      "types": "./dist/features/cover-letter.d.ts",
+      "default": "./dist/features/cover-letter.js"
+    },
+    "./client/supabase": {
+      "types": "./dist/client/supabase.d.ts",
+      "default": "./dist/client/supabase.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm test && npm run format:check",
+    "prepublishOnly": "npm run check && npm run build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "openai": "^7.51.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9",
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.1"
+  }
+}
